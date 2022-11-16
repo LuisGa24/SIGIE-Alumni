@@ -1,0 +1,18 @@
+.docente-container {
+    padding: 10 px;
+    background-color: rgb (245, 245, 220);
+    max-width: 300px;
+}
+
+.docente-container>mat-card {
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.docente-container>mat-card>mat-card-header {
+    padding-top: 10 px;
+}
+
+.mat-card-cont ent-container {
+    padding-left: 10 px;
+}
