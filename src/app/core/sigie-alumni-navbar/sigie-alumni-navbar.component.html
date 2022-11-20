@@ -1,19 +1,22 @@
-<mat-toolbar color="primary">
-    <a mat-button routerLink="listarDocentes">
-        <mat-icon>list</mat-icon>
-        Personal docente
-    </a>
+<mat-toolbar class="navBar">
+    <div fxLayout.gt-xs="row" fxLayout.xs="column" fxFill>
+        <a mat-button routerLink="listarDocentes">
+            <mat-icon>list</mat-icon>
+            Personal docente
+        </a>
 
-    <button mat-button [matMenuTriggerFor]="menu">
-        <mat-icon>list</mat-icon> Plan De Estudios
-    </button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="consultaMejora">Publicar Consulta de Mejora</button>
-    </mat-menu>
+        <button mat-button [matMenuTriggerFor]="menu">
+            <mat-icon>list</mat-icon> Plan De Estudios
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item routerLink="consultaMejora">Publicar Consulta de Mejora</button>
+        </mat-menu>
 
-    <a mat-button href="https://github.com/PacktPublishing/Learning-
-        Angular-9--Third-Edition/tree/master/ch13" target="_blank ">
-        <mat-icon>code</mat-icon>
-        Código fuente
-    </a>
+        <a mat-button href="https://github.com/PacktPublishing/Learning-
+            Angular-9--Third-Edition/tree/master/ch13" target="_blank ">
+            <mat-icon>code</mat-icon>
+            Código fuente
+        </a>
+    </div>
+
 </mat-toolbar>

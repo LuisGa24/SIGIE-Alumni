@@ -28,8 +28,10 @@
 
     <mat-form-field class="component">
         <mat-label>Plan de Estudios</mat-label>
-        <mat-select [(value)]="selectedPlanEstudio">
-            <mat-option value="option1">Plan de Estudios 2022</mat-option>
+        <mat-select [(value)]="selectedPlanEstudio" (selectionChange)="selectedPlan($event.value)">
+            <a *ngFor="let pe of planesEstudio">
+                <mat-option value={{pe.id}}>{{pe.anoAprovacion}} - {{pe.nombreCarrera}}</mat-option>
+            </a>
         </mat-select>
     </mat-form-field>
 
@@ -84,18 +86,24 @@
 <div fxLayout="row" class="docente-container">
     <div class="component">
         <span>Seleccione una o varias categorias de consulta</span> <br>
-        <mat-checkbox>Conocimientos</mat-checkbox>
+        <a *ngFor="let cc of categoriasConsulta">
+            <mat-checkbox>{{cc.nombre}}</mat-checkbox> <br>
+        </a>
     </div>
 
     <div class="component">
 
         <div fxLayout="column">
             <span>Seleccione el área disciplinaria</span><br>
+            <a *ngIf="areasDisciplinares.length == 0"> <span class="alert">Debe seleccionar un Plan
+                    de Estudio
+                    para mostrar las areas
+                    disciplinares</span> </a>
             <mat-radio-group class="radio-group">
-                <mat-radio-button value="1">Matemática y Estadística para Informáticos</mat-radio-button>
-                <mat-radio-button value="2">Programación y Desarrollo de Software</mat-radio-button>
+                <a *ngFor="let a of areasDisciplinares;">
+                    <mat-radio-button value={{a.id}}>{{a.nombre}}</mat-radio-button>
+                </a>
             </mat-radio-group>
-
         </div>
 
     </div>

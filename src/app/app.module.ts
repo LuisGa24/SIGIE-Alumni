@@ -10,6 +10,8 @@ import { DocenteRoutingModule } from './docente/docente-routing.module';
 import { ServicesModule } from './services/services.module';
 import { PublicarConsultaModule } from './components/publicar-consulta.module'
 import { PublicarConsultaRoutingModule } from './components/publicar-consulta-routing.module'
+import { HttpClientModule } from '@angular/common/http'
+
 
 @NgModule({
   declarations: [
@@ -20,6 +22,7 @@ import { PublicarConsultaRoutingModule } from './components/publicar-consulta-ro
     AppRoutingModule,
     BrowserAnimationsModule,
     CoreModule,
+    HttpClientModule,
     FlexLayoutModule,
     DocenteModule,
     DocenteRoutingModule,
