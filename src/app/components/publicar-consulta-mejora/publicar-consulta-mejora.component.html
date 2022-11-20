@@ -30,7 +30,7 @@
         <mat-label>Plan de Estudios</mat-label>
         <mat-select [(value)]="selectedPlanEstudio" (selectionChange)="selectedPlan($event.value)">
             <a *ngFor="let pe of planesEstudio">
-                <mat-option value={{pe.id}}>{{pe.anoAprovacion}} - {{pe.nombreCarrera}}</mat-option>
+                <mat-option value={{pe.id}}>{{pe.anoAprobacion}} - {{pe.nombreCarrera}}</mat-option>
             </a>
         </mat-select>
     </mat-form-field>
