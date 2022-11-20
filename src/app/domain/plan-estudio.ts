@@ -7,7 +7,7 @@ export class PlanEstudio {
         public id?: String,
         public codCarrera?: String,
         public nombreCarrera?: String,
-        public anoAprovacion?: String,
+        public anoAprovacion?: number,
         public coordinador?: PersonaCoordinadora,
         public areasDisciplinares?: Array<AreaDisciplinar>,
         public personasGraduadas?: Array<PersonaGraduada>
