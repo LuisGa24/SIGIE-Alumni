@@ -7,7 +7,7 @@ export class PersonaCoordinadora {
         public apellidos?: String,
         public correoInstitucional?: String,
         public correoPersonal?: String,
-        public fechaInicio?: number,
+        public fechaInicio?: Date,
         public planEstudio?: PlanEstudio
 
     ) { }
