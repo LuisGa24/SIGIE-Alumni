@@ -1,0 +1,102 @@
+<h2>Datos básicos de la consulta</h2>
+<div fxLayout="row" class="docente-container">
+
+    <mat-form-field class="component">
+        <input matInput placeholder="Titulo de la consulta">
+    </mat-form-field>
+
+    <mat-form-field class="component">
+        <input matInput placeholder="Nombre de la persona responsable de la consulta">
+    </mat-form-field>
+
+    <mat-form-field class="component">
+        <input matInput type="email" placeholder="Nombre de la persona responsable de la consulta">
+    </mat-form-field>
+
+    <mat-form-field class="component">
+        <input matInput type="text" placeholder="Apellidos de la persona responsable de la consulta">
+    </mat-form-field>
+
+    <mat-form-field class="component">
+        <textarea matInput rows="5" cols="40" type="text" placeholder="Objetivo de la consulta"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="component">
+        <textarea matInput rows="5" cols="40" type="text"
+            placeholder="Instrucciones para completar la consulta"></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="component">
+        <mat-label>Plan de Estudios</mat-label>
+        <mat-select [(value)]="selectedPlanEstudio">
+            <mat-option value="option1">Plan de Estudios 2022</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field class="component">
+        <input matInput [matDatepicker]="picker" placeholder="Fecha máxima de aceptación de respuestas">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+</div>
+
+<!---------------------- Segmento de Población -------------------------->
+
+<h2>Segmento de Población</h2>
+<div fxLayout="row" class="docente-container">
+
+    <div class="component">
+        <span>Recintos de Consulta</span>
+        <mat-radio-group aria-label="Recintos de Consulta" class="radio-group">
+            <mat-radio-button value="1">Todos los recintos</mat-radio-button>
+            <mat-radio-button value="2">Recinto Paraíso</mat-radio-button>
+        </mat-radio-group>
+    </div>
+
+
+
+
+    <div class="component">
+
+
+        <mat-form-field style="width: 100%">
+            <mat-label>Año de graduación mínimo</mat-label>
+            <mat-select [(value)]="selectedPlanEstudio">
+                <mat-option value="option1">2015</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <br>
+        <mat-form-field style="width: 100%">
+            <mat-label>Año de graduación máximo</mat-label>
+            <mat-select [(value)]="selectedPlanEstudio">
+                <mat-option value="option1">2022</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+
+    </div>
+</div>
+
+<!---------------------- Cuerpo de la Consulta -------------------------->
+
+<h2>Cuerpo de la Consulta</h2>
+<div fxLayout="row" class="docente-container">
+    <div class="component">
+        <span>Seleccione una o varias categorias de consulta</span> <br>
+        <mat-checkbox>Conocimientos</mat-checkbox>
+    </div>
+
+    <div class="component">
+
+        <div fxLayout="column">
+            <span>Seleccione el área disciplinaria</span><br>
+            <mat-radio-group class="radio-group">
+                <mat-radio-button value="1">Matemática y Estadística para Informáticos</mat-radio-button>
+                <mat-radio-button value="2">Programación y Desarrollo de Software</mat-radio-button>
+            </mat-radio-group>
+
+        </div>
+
+    </div>
+</div>

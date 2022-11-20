@@ -1,8 +1,16 @@
 <mat-toolbar color="primary">
-    <a mat-button routerLink="listar_docentes">
+    <a mat-button routerLink="listarDocentes">
         <mat-icon>list</mat-icon>
         Personal docente
     </a>
+
+    <button mat-button [matMenuTriggerFor]="menu">
+        <mat-icon>list</mat-icon> Plan De Estudios
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="consultaMejora">Publicar Consulta de Mejora</button>
+    </mat-menu>
+
     <a mat-button href="https://github.com/PacktPublishing/Learning-
         Angular-9--Third-Edition/tree/master/ch13" target="_blank ">
         <mat-icon>code</mat-icon>

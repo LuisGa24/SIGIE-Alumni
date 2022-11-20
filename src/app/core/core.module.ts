@@ -6,6 +6,7 @@ import { SigieAlumniNavbarComponent } from './sigie-alumni-navbar/sigie-alumni-n
 import { AppMaterialModule } from '../app-material/app-material.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { DocenteRoutingModule } from '../docente/docente-routing.module';
+import { PublicarConsultaRoutingModule } from '../components/publicar-consulta-routing.module'
 
 
 
@@ -19,7 +20,8 @@ import { DocenteRoutingModule } from '../docente/docente-routing.module';
     FlexLayoutModule,
     AppMaterialModule,
     AppRoutingModule,
-    DocenteRoutingModule
+    DocenteRoutingModule,
+    PublicarConsultaRoutingModule
   ],
   exports: [
     SigieAlumniHeaderComponent,
