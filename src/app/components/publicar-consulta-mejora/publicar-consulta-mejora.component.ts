@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { PlanEstudio } from 'src/app/domain/plan-estudio';
 import { AreaDisciplinarService } from 'src/app/services/area-disciplinar.service';
 import { CategoriaConsultaService } from 'src/app/services/categoria-consulta.service'
 import { PlanEstudioService } from 'src/app/services/plan-estudio.service'
+import { RecintoService } from 'src/app/services/recinto.service'
 
 
 
@@ -16,12 +16,14 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   areasDisciplinares: any = [];
   categoriasConsulta: any = [];
   planesEstudio: any = [];
+  recintos: any = [];
   selectedPlanEstudio = '';
 
   constructor(private areaDisciplinarService: AreaDisciplinarService, private categoriaConsultaService: CategoriaConsultaService,
-    private planEstudioService: PlanEstudioService) {
+    private planEstudioService: PlanEstudioService, private recintoService: RecintoService) {
     this.getPlanesEstudio();
     this.getCategoriasConsulta();
+    this.getRecintos();
   }
 
   ngOnInit(): void {
@@ -43,6 +45,13 @@ export class PublicarConsultaMejoraComponent implements OnInit {
     })
   }
 
+  getRecintos() {
+    this.recintos = [];
+
+    this.recintoService.getAll().subscribe((data: {}) => {
+      this.recintos = data;
+    })
+  }
   selectedPlan(idPlanEstudio: number) {
     this.areasDisciplinares = this.planesEstudio[idPlanEstudio].areasDisciplinares;
   }
