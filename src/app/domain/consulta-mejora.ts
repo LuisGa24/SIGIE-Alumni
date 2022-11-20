@@ -15,9 +15,9 @@ export class ConsultaMejora {
         public nombrePersonaResponsableConsulta?: String,
         public apellidosPersonaResponsableConsulta?: String,
         public correoPersonaResponsableConsulta?: String,
-        public recinto?: Recinto,
+        public recintos?: Array<Recinto>,
         public areaDisciplinar?: AreaDisciplinar,
         public planEstudio?: PlanEstudio,
-        public respuestas?: RespuestaMejora,
+        public respuestas?: Array<RespuestaMejora>,
     ) { }
 }
