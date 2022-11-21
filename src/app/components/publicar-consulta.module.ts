@@ -4,8 +4,7 @@ import { CommonModule } from '@angular/common';
 import { PublicarConsultaRoutingModule } from './publicar-consulta-routing.module';
 import { AppMaterialModule } from '../app-material/app-material.module';
 import { PublicarConsultaMejoraComponent } from './publicar-consulta-mejora/publicar-consulta-mejora.component';
-import { AreaDisciplinarService } from '../services/area-disciplinar.service'
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,7 +13,9 @@ import { AreaDisciplinarService } from '../services/area-disciplinar.service'
   imports: [
     CommonModule,
     PublicarConsultaRoutingModule,
-    AppMaterialModule
+    AppMaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class PublicarConsultaModule { }

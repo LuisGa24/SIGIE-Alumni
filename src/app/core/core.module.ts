@@ -10,6 +10,7 @@ import { PublicarConsultaRoutingModule } from '../components/publicar-consulta-r
 
 
 
+
 @NgModule({
   declarations: [
     SigieAlumniHeaderComponent,

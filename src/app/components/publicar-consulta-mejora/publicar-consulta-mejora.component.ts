@@ -3,7 +3,7 @@ import { AreaDisciplinarService } from 'src/app/services/area-disciplinar.servic
 import { CategoriaConsultaService } from 'src/app/services/categoria-consulta.service'
 import { PlanEstudioService } from 'src/app/services/plan-estudio.service'
 import { RecintoService } from 'src/app/services/recinto.service'
-
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
 @Component({
@@ -13,17 +13,34 @@ import { RecintoService } from 'src/app/services/recinto.service'
 })
 export class PublicarConsultaMejoraComponent implements OnInit {
 
+  years: any = [];
   areasDisciplinares: any = [];
   categoriasConsulta: any = [];
   planesEstudio: any = [];
   recintos: any = [];
   selectedPlanEstudio = '';
+  consultaMejoraForm: FormGroup;
+  idPlanEstudio = 0;
 
-  constructor(private areaDisciplinarService: AreaDisciplinarService, private categoriaConsultaService: CategoriaConsultaService,
+  constructor(private fb: FormBuilder, private areaDisciplinarService: AreaDisciplinarService, private categoriaConsultaService: CategoriaConsultaService,
     private planEstudioService: PlanEstudioService, private recintoService: RecintoService) {
+    const currentYear = new Date().getFullYear();
+    this.setYears(2000, currentYear);
     this.getPlanesEstudio();
     this.getCategoriasConsulta();
     this.getRecintos();
+
+    this.consultaMejoraForm = this.fb.group({
+      nombreConsulta: ['', [Validators.required]],
+      nombreResponsable: ['', [Validators.required]],
+      emailResponsable: ['', [Validators.required]],
+      apellidosResponsable: ['', [Validators.required]],
+      objetivoConsulta: ['', [Validators.required]],
+      instruccionesConsulta: ['', [Validators.required]],
+      planEstudio: [this.idPlanEstudio, [Validators.required]],
+      fechaMaxAceptacionRes: ['', [Validators.required]],
+    })
+
   }
 
   ngOnInit(): void {
@@ -54,5 +71,14 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   }
   selectedPlan(idPlanEstudio: number) {
     this.areasDisciplinares = this.planesEstudio[idPlanEstudio].areasDisciplinares;
+  }
+
+  setYears(min: number, max: number) {
+    for (min; min <= max; min++) {
+      this.years.push(min);
+    }
+  }
+  submitForm() {
+
   }
 }
