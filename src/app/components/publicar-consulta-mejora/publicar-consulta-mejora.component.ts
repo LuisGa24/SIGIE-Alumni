@@ -25,6 +25,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   constructor(private fb: FormBuilder, private areaDisciplinarService: AreaDisciplinarService, private categoriaConsultaService: CategoriaConsultaService,
     private planEstudioService: PlanEstudioService, private recintoService: RecintoService) {
     const currentYear = new Date().getFullYear();
+    //agarrar el año del plan de estudio como el menor
     this.setYears(2000, currentYear);
     this.getPlanesEstudio();
     this.getCategoriasConsulta();
