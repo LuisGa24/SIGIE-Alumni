@@ -5,10 +5,12 @@ import { PublicarConsultaRoutingModule } from './publicar-consulta-routing.modul
 import { AppMaterialModule } from '../app-material/app-material.module';
 import { PublicarConsultaMejoraComponent } from './publicar-consulta-mejora/publicar-consulta-mejora.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
-    PublicarConsultaMejoraComponent
+    PublicarConsultaMejoraComponent,
+    DialogComponent
   ],
   imports: [
     CommonModule,

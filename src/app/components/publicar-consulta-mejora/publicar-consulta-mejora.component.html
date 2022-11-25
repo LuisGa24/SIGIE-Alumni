@@ -55,7 +55,7 @@
 
         <div class="component">
             <span>Recintos de Consulta</span>
-            <mat-radio-group aria-label="Recintos de Consulta" class="radio-group">
+            <mat-radio-group aria-label="Recintos de Consulta" class="radio-group" formControlName="recintoConsulta">
                 <mat-radio-button value="999">Todos los recintos</mat-radio-button>
                 <a *ngFor="let r of recintos">
                     <mat-radio-button value={{r.id}}>{{r.nombre}}</mat-radio-button>
@@ -66,8 +66,10 @@
         <div class="component">
 
             <mat-form-field style="width: 100%">
-                <mat-label>Año de graduación mínimo</mat-label>
-                <mat-select>
+                <mat-label>Año de graduación mínimo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
+                        de Estudio"</a>
+                </mat-label>
+                <mat-select formControlName="anoMaximoGraduacion">
                     <a *ngFor="let y of years">
                         <mat-option value={{y}}>{{y}}</mat-option>
                     </a>
@@ -75,8 +77,9 @@
             </mat-form-field>
             <br>
             <mat-form-field style="width: 100%">
-                <mat-label>Año de graduación máximo</mat-label>
-                <mat-select>
+                <mat-label>Año de graduación máximo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
+                        de Estudio"</a></mat-label>
+                <mat-select formControlName="anoMinimoGraduacion">
                     <a *ngFor="let y of years">
                         <mat-option value={{y}}>{{y}}</mat-option>
                     </a>
@@ -111,7 +114,10 @@
                     </a>
                 </mat-radio-group>
             </div>
-
         </div>
     </div>
+    <div fxLayout="row" class="docente-container">
+        <button class="component" type="submit" mat-button color="primary">Update request</button>
+    </div>
+    <br>
 </form>

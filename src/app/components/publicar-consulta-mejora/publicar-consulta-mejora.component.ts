@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AreaDisciplinarService } from 'src/app/services/area-disciplinar.service';
 import { CategoriaConsultaService } from 'src/app/services/categoria-consulta.service'
 import { PlanEstudioService } from 'src/app/services/plan-estudio.service'
 import { RecintoService } from 'src/app/services/recinto.service'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DialogComponent } from '../dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-publicar-consulta-mejora',
@@ -22,11 +22,9 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   consultaMejoraForm: FormGroup;
   idPlanEstudio = 0;
 
-  constructor(private fb: FormBuilder, private areaDisciplinarService: AreaDisciplinarService, private categoriaConsultaService: CategoriaConsultaService,
-    private planEstudioService: PlanEstudioService, private recintoService: RecintoService) {
-    const currentYear = new Date().getFullYear();
-    //agarrar el año del plan de estudio como el menor
-    this.setYears(2000, currentYear);
+  constructor(private fb: FormBuilder, private categoriaConsultaService: CategoriaConsultaService,
+    private planEstudioService: PlanEstudioService, private recintoService: RecintoService,
+    private dialog: MatDialog) {
     this.getPlanesEstudio();
     this.getCategoriasConsulta();
     this.getRecintos();
@@ -40,6 +38,9 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       instruccionesConsulta: ['', [Validators.required]],
       planEstudio: [this.idPlanEstudio, [Validators.required]],
       fechaMaxAceptacionRes: ['', [Validators.required]],
+      recintoConsulta: ['', [Validators.required]],
+      anoMaximoGraduacion: ['', [Validators.required]],
+      anoMinimoGraduacion: ['', [Validators.required]],
     })
 
   }
@@ -71,7 +72,10 @@ export class PublicarConsultaMejoraComponent implements OnInit {
     })
   }
   selectedPlan(idPlanEstudio: number) {
+    this.years = [];
+    const currentYear = new Date().getFullYear();
     this.areasDisciplinares = this.planesEstudio[idPlanEstudio].areasDisciplinares;
+    this.setYears(this.planesEstudio[idPlanEstudio].anoAprobacion, currentYear);
   }
 
   setYears(min: number, max: number) {
@@ -79,7 +83,16 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       this.years.push(min);
     }
   }
+
   submitForm() {
+    if (!this.consultaMejoraForm.valid) {
+      this.dialog.open(DialogComponent, {
+        width: '250px',
+        data: { title: 'Error', message: 'Todos los espacios deben ser rellenados.' },
+      });
+    } else {
+
+    }
 
   }
 }
