@@ -45,6 +45,10 @@ h2 {
 .component span {
     font-weight: bold;
 }
+.selector-container{
+    margin-left: 5%;
+    padding-top: 10px;
+}
 
 .radio-group {
     display: flex;
@@ -55,4 +59,8 @@ h2 {
     font-size: small;
     color: red;
     text-align: center;
+}
+
+.mat-checkbox, .mat-radio-button{
+    margin-bottom: 6px;
 }

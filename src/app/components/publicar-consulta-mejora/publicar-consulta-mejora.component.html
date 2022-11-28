@@ -36,8 +36,8 @@
             <mat-label>Plan de Estudios</mat-label>
             <mat-select [(value)]="selectedPlanEstudio" (selectionChange)="selectedPlan($event.value)"
                 formControlName="planEstudio">
-                <a *ngFor="let pe of planesEstudio">
-                    <mat-option value={{pe.id}}>{{pe.anoAprobacion}} - {{pe.nombreCarrera}}</mat-option>
+                <a *ngFor="let pe of planesEstudio; index as i;">
+                    <mat-option value={{i}}>{{pe.anoAprobacion}} - {{pe.nombreCarrera}}</mat-option>
                 </a>
             </mat-select>
         </mat-form-field>
@@ -54,13 +54,15 @@
     <div fxLayout="row" class="docente-container">
 
         <div class="component">
-            <span>Recintos de Consulta</span>
-            <mat-radio-group aria-label="Recintos de Consulta" class="radio-group" formControlName="recintoConsulta">
-                <mat-radio-button value="999">Todos los recintos</mat-radio-button>
-                <a *ngFor="let r of recintos">
-                    <mat-radio-button value={{r.id}}>{{r.nombre}}</mat-radio-button>
-                </a>
-            </mat-radio-group>
+            <div class="selector-container">
+                <span>Recintos de Consulta</span><br><br>
+                <mat-radio-group aria-label="Recintos de Consulta" class="radio-group">
+                    <mat-radio-button value="999">Todos los recintos</mat-radio-button>
+                    <a *ngFor="let r of recintos">
+                        <mat-radio-button value={{r.id}}>{{r.nombre}}</mat-radio-button>
+                    </a>
+                </mat-radio-group>
+            </div>
         </div>
 
         <div class="component">
@@ -94,25 +96,29 @@
     <h2>Cuerpo de la Consulta</h2>
     <div fxLayout="row" class="docente-container">
         <div class="component">
-            <span>Seleccione una o varias categorias de consulta</span> <br>
-            <a *ngFor="let cc of categoriasConsulta">
-                <mat-checkbox>{{cc.nombre}}</mat-checkbox> <br>
-            </a>
+            <div class="selector-container">
+                <span>Seleccione una o varias categorias de consulta</span> <br><br>
+                <a *ngFor="let cc of categoriasConsulta">
+                    <mat-checkbox>{{cc.nombre}}</mat-checkbox> <br>
+                </a>
+            </div>
         </div>
 
         <div class="component">
 
             <div fxLayout="column">
-                <span>Seleccione el área disciplinaria</span><br>
-                <a *ngIf="areasDisciplinares.length == 0"> <span class="alert">Debe seleccionar un Plan
-                        de Estudio
-                        para mostrar las areas
-                        disciplinares</span> </a>
-                <mat-radio-group class="radio-group">
-                    <a *ngFor="let a of areasDisciplinares;">
-                        <mat-radio-button value={{a.id}}>{{a.nombre}}</mat-radio-button>
-                    </a>
-                </mat-radio-group>
+                <div class="selector-container">
+                    <span>Seleccione el área disciplinaria</span><br><br>
+                    <a *ngIf="areasDisciplinares.length == 0"> <span class="alert">Debe seleccionar un Plan
+                            de Estudio
+                            para mostrar las areas
+                            disciplinares</span> </a>
+                    <mat-radio-group class="radio-group">
+                        <a *ngFor="let a of areasDisciplinares;">
+                            <mat-radio-button value={{a.id}}>{{a.nombre}}</mat-radio-button><br>
+                        </a>
+                    </mat-radio-group>
+                </div>
             </div>
         </div>
     </div>
@@ -121,3 +127,5 @@
     </div>
     <br>
 </form>
+<br><br>
+

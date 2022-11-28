@@ -71,11 +71,14 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       this.recintos = data;
     })
   }
-  selectedPlan(idPlanEstudio: number) {
+
+  selectedPlan(index: number) {
     this.years = [];
     const currentYear = new Date().getFullYear();
-    this.areasDisciplinares = this.planesEstudio[idPlanEstudio].areasDisciplinares;
-    this.setYears(this.planesEstudio[idPlanEstudio].anoAprobacion, currentYear);
+    this.areasDisciplinares = this.planesEstudio[index].areasDisciplinares;
+    this.setYears(this.planesEstudio[index].anoAprobacion, currentYear);
+    this.areasDisciplinares = this.planesEstudio[index].areasDisciplinares;
+
   }
 
   setYears(min: number, max: number) {
