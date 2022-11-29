@@ -56,12 +56,11 @@
         <div class="component">
             <div class="selector-container">
                 <span>Recintos de Consulta</span><br><br>
-                <mat-radio-group formControlName="recintoConsulta" aria-label="Recintos de Consulta" class="radio-group">
-                    <mat-radio-button value="999">Todos los recintos</mat-radio-button>
-                    <a *ngFor="let r of recintos">
-                        <mat-radio-button value={{r.id}}>{{r.nombre}}</mat-radio-button>
-                    </a>
-                </mat-radio-group>
+                <mat-checkbox value="999">Todos los recintos</mat-checkbox> <br>
+                <a *ngFor="let r of recintos">
+                    <mat-checkbox value={{r.id}}>{{r.nombre}}</mat-checkbox> <br>
+                </a>
+
             </div>
         </div>
 
@@ -128,4 +127,3 @@
     <br>
 </form>
 <br><br>
-
