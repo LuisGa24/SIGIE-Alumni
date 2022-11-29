@@ -5,6 +5,9 @@ import { RecintoService } from 'src/app/services/recinto.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConsultaMejoraService } from 'src/app/services/consulta-mejora.service';
+import { ConsultaMejora } from 'src/app/domain/consulta-mejora';
+import { AreaDisciplinar } from 'src/app/domain/area-disciplinar';
 
 @Component({
   selector: 'app-publicar-consulta-mejora',
@@ -24,7 +27,8 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private categoriaConsultaService: CategoriaConsultaService,
     private planEstudioService: PlanEstudioService, private recintoService: RecintoService,
-    private dialog: MatDialog) {
+    private dialog: MatDialog, private consultaMejoraService: ConsultaMejoraService) {
+
     this.getPlanesEstudio();
     this.getCategoriasConsulta();
     this.getRecintos();
@@ -41,6 +45,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       recintoConsulta: ['', [Validators.required]],
       anoMaximoGraduacion: ['', [Validators.required]],
       anoMinimoGraduacion: ['', [Validators.required]],
+      areaDisciplinar: ['', [Validators.required]]
     })
 
   }
@@ -75,9 +80,13 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   selectedPlan(index: number) {
     this.years = [];
     const currentYear = new Date().getFullYear();
-    this.areasDisciplinares = this.planesEstudio[index].areasDisciplinares;
-    this.setYears(this.planesEstudio[index].anoAprobacion, currentYear);
-    this.areasDisciplinares = this.planesEstudio[index].areasDisciplinares;
+     var plan = this.planesEstudio.filter((p: { id: number; }) => {
+      return p.id === index
+    })[0];
+    this.areasDisciplinares = plan.areasDisciplinares;
+    this.setYears(plan.anoAprobacion, currentYear);
+    this.areasDisciplinares = plan.areasDisciplinares;
+    this.idPlanEstudio = plan.id;
 
   }
 
@@ -94,6 +103,46 @@ export class PublicarConsultaMejoraComponent implements OnInit {
         data: { title: 'Error', message: 'Todos los espacios deben ser rellenados.' },
       });
     } else {
+
+      var consultaMejora : any = this.consultaMejoraForm.value
+
+      var area: AreaDisciplinar = this.areasDisciplinares.filter((a: { id: number; }) => {
+        return a.id === consultaMejora.areaDisciplinar
+      })[0];
+      
+      var consulta = new ConsultaMejora(
+        '10',
+        consultaMejora.nombreConsulta,
+        consultaMejora.objetivoConsulta,
+        consultaMejora.instruccionesConsulta,
+        consultaMejora.fechaMaxAceptacionRes,
+        consultaMejora.anoMaximoGraduacion,
+        consultaMejora.anoMinimoGraduacion,
+        consultaMejora.nombreResponsable,
+        consultaMejora.apellidosResponsable,
+        consultaMejora.emailResponsable,
+        consultaMejora.recintoConsulta,
+        area,
+        consultaMejora.planEstudio,
+        consultaMejora.respuestas
+      )
+      
+      this.consultaMejoraService.add(this.consultaMejoraForm.value).subscribe((result) => {
+        
+        this.dialog.open(DialogComponent, {
+          width: '250px',
+          data: { title: 'Ok', message: 'Consulta de mejora publicada con éxito.' },
+        });
+
+      }, (err) => {
+
+        this.dialog.open(DialogComponent, {
+          width: '250px',
+          data: { title: 'Error', message: 'No se pudo publicar la consulta de mejora en este momento.' },
+        });
+
+      });
+
 
     }
 
