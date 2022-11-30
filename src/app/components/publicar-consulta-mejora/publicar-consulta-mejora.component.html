@@ -56,15 +56,18 @@
         <div class="component">
             <div class="selector-container">
                 <span>Recintos de Consulta</span><br><br>
-                <mat-checkbox value="999">Todos los recintos</mat-checkbox> <br>
+                <mat-checkbox value="9999" id="allRecintosCheck" (change)="selectCheckBox(9999)">Todos los recintos
+                </mat-checkbox> <br>
                 <a *ngFor="let r of recintos">
-                    <mat-checkbox value={{r.id}}>{{r.nombre}}</mat-checkbox> <br>
+                    <mat-checkbox value={{r.id}} (change)="selectCheckBox(r.id)"
+                        *ngIf="selectedRecintos.length != recintos.length">{{r.nombre}}
+                    </mat-checkbox> <br>
                 </a>
 
             </div>
         </div>
 
-        <div class="component">
+        <div class=" component">
 
             <mat-form-field style="width: 100%">
                 <mat-label>Año de graduación mínimo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan

@@ -16,11 +16,13 @@ import { AreaDisciplinar } from 'src/app/domain/area-disciplinar';
 })
 export class PublicarConsultaMejoraComponent implements OnInit {
 
+  allRecintosSelected = false;
   years: any = [];
   areasDisciplinares: any = [];
   categoriasConsulta: any = [];
   planesEstudio: any = [];
   recintos: any = [];
+  selectedRecintos: any = [];
   selectedPlanEstudio = '';
   consultaMejoraForm: FormGroup;
   idPlanEstudio = 0;
@@ -80,7 +82,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   selectedPlan(index: number) {
     this.years = [];
     const currentYear = new Date().getFullYear();
-     var plan = this.planesEstudio.filter((p: { id: number; }) => {
+    var plan = this.planesEstudio.filter((p: { id: number; }) => {
       return p.id === index
     })[0];
     this.areasDisciplinares = plan.areasDisciplinares;
@@ -104,12 +106,12 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       });
     } else {
 
-      var consultaMejora : any = this.consultaMejoraForm.value
+      var consultaMejora: any = this.consultaMejoraForm.value
 
       var area: AreaDisciplinar = this.areasDisciplinares.filter((a: { id: number; }) => {
         return a.id === consultaMejora.areaDisciplinar
       })[0];
-      
+
       var consulta = new ConsultaMejora(
         '10',
         consultaMejora.nombreConsulta,
@@ -126,9 +128,9 @@ export class PublicarConsultaMejoraComponent implements OnInit {
         consultaMejora.planEstudio,
         consultaMejora.respuestas
       )
-      
+
       this.consultaMejoraService.add(this.consultaMejoraForm.value).subscribe((result) => {
-        
+
         this.dialog.open(DialogComponent, {
           width: '250px',
           data: { title: 'Ok', message: 'Consulta de mejora publicada con éxito.' },
@@ -147,4 +149,42 @@ export class PublicarConsultaMejoraComponent implements OnInit {
     }
 
   }
+
+  selectCheckBox(idRecinto: number) {
+    if (idRecinto != 9999) {
+      if (this.selectedRecintos.length > 0 && this.selectedRecintos.filter((a: number) => {
+        return a === idRecinto
+      }).length > 0) {
+        //Remove object in array
+        this.deleteItem(idRecinto);
+      } else {
+        this.selectedRecintos.push(idRecinto);
+      }
+    } else {
+      if (this.allRecintosSelected == false) {
+        this.selectedRecintos = [];
+        for (let i = 0; i < this.recintos.length; i++) {
+          this.selectedRecintos.push(this.recintos[i].id)
+        }
+        this.allRecintosSelected = true;
+      } else {
+        this.selectedRecintos = [];
+        this.allRecintosSelected = false;
+      }
+    }
+
+    console.log(this.selectedRecintos);
+  }
+
+  deleteItem(target: number) {
+    var i = 0;
+    while (i < this.selectedRecintos.length) {
+      if (this.selectedRecintos[i] === target) {
+        this.selectedRecintos.splice(i, 1);
+      } else {
+        ++i;
+      }
+    }
+  }
 }
+
