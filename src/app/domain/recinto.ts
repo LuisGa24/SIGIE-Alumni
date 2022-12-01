@@ -2,7 +2,7 @@ import { PersonaGraduada } from "./persona-graduada";
 
 export class Recinto {
     constructor(
-        public id?: String,
+        public id?: number,
         public nombre?: String,
         public direccion?: String,
         public numTelefono?: String,

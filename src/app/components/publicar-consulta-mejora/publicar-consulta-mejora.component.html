@@ -44,7 +44,7 @@
 
         <mat-form-field class="component">
             <mat-label>Fecha máxima de aceptación de respuestas</mat-label>
-            <input type="datetime-local" matInput formControlName="fechaMaxAceptacionRes">
+            <input type="datetime-local" matInput formControlName="fechaMaxAceptacionRes" min={{currentDate}}>
         </mat-form-field>
     </div>
 
@@ -70,7 +70,7 @@
         <div class=" component">
 
             <mat-form-field style="width: 100%">
-                <mat-label>Año de graduación mínimo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
+                <mat-label>Año de graduación máximo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
                         de Estudio"</a>
                 </mat-label>
                 <mat-select formControlName="anoMaximoGraduacion">
@@ -81,7 +81,7 @@
             </mat-form-field>
             <br>
             <mat-form-field style="width: 100%">
-                <mat-label>Año de graduación máximo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
+                <mat-label>Año de graduación mínimo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
                         de Estudio"</a></mat-label>
                 <mat-select formControlName="anoMinimoGraduacion">
                     <a *ngFor="let y of years">
@@ -101,7 +101,7 @@
             <div class="selector-container">
                 <span>Seleccione una o varias categorias de consulta</span> <br><br>
                 <a *ngFor="let cc of categoriasConsulta">
-                    <mat-checkbox>{{cc.nombre}}</mat-checkbox> <br>
+                    <mat-checkbox (change)="selectCheckBoxCategoriaConsulta(cc.id)">{{cc.nombre}}</mat-checkbox> <br>
                 </a>
             </div>
         </div>

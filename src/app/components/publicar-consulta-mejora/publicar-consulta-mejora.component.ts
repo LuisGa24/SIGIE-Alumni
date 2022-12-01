@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConsultaMejoraService } from 'src/app/services/consulta-mejora.service';
 import { ConsultaMejora } from 'src/app/domain/consulta-mejora';
 import { AreaDisciplinar } from 'src/app/domain/area-disciplinar';
+import { Recinto } from 'src/app/domain/recinto';
+import { PlanEstudio } from 'src/app/domain/plan-estudio';
 
 @Component({
   selector: 'app-publicar-consulta-mejora',
@@ -26,6 +28,8 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   selectedPlanEstudio = '';
   consultaMejoraForm: FormGroup;
   idPlanEstudio = 0;
+  currentDate = '';
+
 
   constructor(private fb: FormBuilder, private categoriaConsultaService: CategoriaConsultaService,
     private planEstudioService: PlanEstudioService, private recintoService: RecintoService,
@@ -44,7 +48,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       instruccionesConsulta: ['', [Validators.required]],
       planEstudio: [this.idPlanEstudio, [Validators.required]],
       fechaMaxAceptacionRes: ['', [Validators.required]],
-      recintoConsulta: ['', [Validators.required]],
+      recintoConsulta: ['', []],
       anoMaximoGraduacion: ['', [Validators.required]],
       anoMinimoGraduacion: ['', [Validators.required]],
       areaDisciplinar: ['', [Validators.required]]
@@ -53,6 +57,13 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.currentDate = this.getActualUTCDateFormated();
+  }
+
+  getActualUTCDateFormated() {
+    let date = new Date();
+    var currentDate = date.getFullYear() + '-' + date.getUTCMonth() + '-' + date.getDate() + 'T00:00';
+    return currentDate;
   }
 
   getCategoriasConsulta() {
@@ -79,15 +90,15 @@ export class PublicarConsultaMejoraComponent implements OnInit {
     })
   }
 
-  selectedPlan(index: number) {
+  selectedPlan(idPlanEstudio: Number) {
+    console.log(idPlanEstudio);
     this.years = [];
     const currentYear = new Date().getFullYear();
-    var plan = this.planesEstudio.filter((p: { id: number; }) => {
-      return p.id === index
+    var plan = this.planesEstudio.filter((p: { id: number }) => {
+      return p.id == idPlanEstudio
     })[0];
     this.areasDisciplinares = plan.areasDisciplinares;
     this.setYears(plan.anoAprobacion, currentYear);
-    this.areasDisciplinares = plan.areasDisciplinares;
     this.idPlanEstudio = plan.id;
 
   }
@@ -99,6 +110,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   }
 
   submitForm() {
+
     if (!this.consultaMejoraForm.valid) {
       this.dialog.open(DialogComponent, {
         width: '250px',
@@ -106,14 +118,21 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       });
     } else {
 
-      var consultaMejora: any = this.consultaMejoraForm.value
+      /********************************************************************************* */
+      var recintosMejora: Recinto[] = this.getAllRecintoById();
+      /********************************************************************************** */
+      var consultaMejora: any = this.consultaMejoraForm.value;
+
+      var planEstudio: PlanEstudio = this.planesEstudio.filter((a: { id: number }) => {
+        return a.id == this.idPlanEstudio
+      })[0]
 
       var area: AreaDisciplinar = this.areasDisciplinares.filter((a: { id: number; }) => {
-        return a.id === consultaMejora.areaDisciplinar
+        return a.id == consultaMejora.areaDisciplinar
       })[0];
 
       var consulta = new ConsultaMejora(
-        '10',
+        0,
         consultaMejora.nombreConsulta,
         consultaMejora.objetivoConsulta,
         consultaMejora.instruccionesConsulta,
@@ -123,28 +142,34 @@ export class PublicarConsultaMejoraComponent implements OnInit {
         consultaMejora.nombreResponsable,
         consultaMejora.apellidosResponsable,
         consultaMejora.emailResponsable,
-        consultaMejora.recintoConsulta,
+        recintosMejora,
         area,
-        consultaMejora.planEstudio,
+        planEstudio,
         consultaMejora.respuestas
       )
 
-      this.consultaMejoraService.add(this.consultaMejoraForm.value).subscribe((result) => {
-
+      if (consulta.anoGraduacionMin > consulta.anoGraduacionMax) {
         this.dialog.open(DialogComponent, {
           width: '250px',
-          data: { title: 'Ok', message: 'Consulta de mejora publicada con éxito.' },
+          data: { title: 'Error', message: 'El año máximo y mínimo de graduación no es válido. Verifique que las fechas estén correctas.' },
         });
+      } else {
+        this.consultaMejoraService.add(consulta).subscribe((result) => {
 
-      }, (err) => {
+          this.dialog.open(DialogComponent, {
+            width: '250px',
+            data: { title: 'Ok', message: 'Consulta de mejora publicada con éxito.' },
+          });
 
-        this.dialog.open(DialogComponent, {
-          width: '250px',
-          data: { title: 'Error', message: 'No se pudo publicar la consulta de mejora en este momento.' },
+        }, (err) => {
+
+          this.dialog.open(DialogComponent, {
+            width: '250px',
+            data: { title: 'Error', message: 'No se pudo publicar la consulta de mejora en este momento.' },
+          });
+
         });
-
-      });
-
+      }
 
     }
 
@@ -172,8 +197,10 @@ export class PublicarConsultaMejoraComponent implements OnInit {
         this.allRecintosSelected = false;
       }
     }
+  }
 
-    console.log(this.selectedRecintos);
+  selectCheckBoxCategoriaConsulta(idCategoriaConsulta: number) {
+
   }
 
   deleteItem(target: number) {
@@ -186,5 +213,18 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       }
     }
   }
+
+  getAllRecintoById() {
+    let recintoOptionSelected: any = [];
+    for (let i = 0; i < this.selectedRecintos.length; i++) {
+
+      recintoOptionSelected.push(this.recintos.filter((a: { id: number }) => {
+        return a.id === this.selectedRecintos[i]
+      })[0]);
+
+    }
+    return recintoOptionSelected;
+  }
+
 }
 

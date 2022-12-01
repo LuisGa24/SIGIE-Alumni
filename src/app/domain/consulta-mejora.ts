@@ -5,7 +5,7 @@ import { RespuestaMejora } from "./respuesta-mejora";
 
 export class ConsultaMejora {
     constructor(
-        public id: String,
+        public id: number,
         public titulo: String,
         public objetivo: String,
         public instrucciones: String,

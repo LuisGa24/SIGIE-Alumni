@@ -1,6 +1,6 @@
 export class CategoriaConsulta {
     constructor(
-        public id?: String,
+        public id?: number,
         public nombre?: String,
     ) { }
 }

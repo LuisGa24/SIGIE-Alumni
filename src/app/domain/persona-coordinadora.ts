@@ -2,7 +2,7 @@ import { PlanEstudio } from "./plan-estudio";
 
 export class PersonaCoordinadora {
     constructor(
-        public id?: String,
+        public id?: number,
         public nombre?: String,
         public apellidos?: String,
         public correoInstitucional?: String,
