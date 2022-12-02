@@ -10,6 +10,7 @@ import { ConsultaMejora } from 'src/app/domain/consulta-mejora';
 import { AreaDisciplinar } from 'src/app/domain/area-disciplinar';
 import { Recinto } from 'src/app/domain/recinto';
 import { PlanEstudio } from 'src/app/domain/plan-estudio';
+import { CategoriaConsulta } from 'src/app/domain/categoria-consulta';
 
 @Component({
   selector: 'app-publicar-consulta-mejora',
@@ -21,14 +22,15 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   allRecintosSelected = false;
   years: any = [];
   areasDisciplinares: any = [];
-  categoriasConsulta: any = [];
   planesEstudio: any = [];
   recintos: any = [];
   selectedRecintos: any = [];
+  selectedCategorias: any = [];
   selectedPlanEstudio = '';
   consultaMejoraForm: FormGroup;
   idPlanEstudio = 0;
   currentDate = '';
+  categoriasConsulta: any = [];
 
 
   constructor(private fb: FormBuilder, private categoriaConsultaService: CategoriaConsultaService,
@@ -51,7 +53,8 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       recintoConsulta: ['', []],
       anoMaximoGraduacion: ['', [Validators.required]],
       anoMinimoGraduacion: ['', [Validators.required]],
-      areaDisciplinar: ['', [Validators.required]]
+      areaDisciplinar: ['', [Validators.required]],
+      categoriasConsulta: ['', []]
     })
 
   }
@@ -120,6 +123,8 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
       /********************************************************************************* */
       var recintosMejora: Recinto[] = this.getAllRecintoById();
+
+      var categoriasConsulta: CategoriaConsulta[] = this.getAllCategoriasById();
       /********************************************************************************** */
       var consultaMejora: any = this.consultaMejoraForm.value;
 
@@ -144,8 +149,9 @@ export class PublicarConsultaMejoraComponent implements OnInit {
         consultaMejora.emailResponsable,
         recintosMejora,
         area,
-        planEstudio,
-        consultaMejora.respuestas
+        new PlanEstudio(planEstudio.id),
+        consultaMejora.respuestas,
+        categoriasConsulta
       )
 
       if (consulta.anoGraduacionMin > consulta.anoGraduacionMax) {
@@ -161,7 +167,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
             data: { title: 'Ok', message: 'Consulta de mejora publicada con éxito.' },
           });
 
-        }, (err) => {
+        }, () => {
 
           this.dialog.open(DialogComponent, {
             width: '250px',
@@ -181,7 +187,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
         return a === idRecinto
       }).length > 0) {
         //Remove object in array
-        this.deleteItem(idRecinto);
+        this.deleteItemRecinto(idRecinto);
       } else {
         this.selectedRecintos.push(idRecinto);
       }
@@ -200,14 +206,32 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   }
 
   selectCheckBoxCategoriaConsulta(idCategoriaConsulta: number) {
-
+    if (this.selectedCategorias.length > 0 && this.selectedCategorias.filter((a: number) => {
+      return a === idCategoriaConsulta
+    }).length > 0) {
+      //Remove object in array
+      this.deleteItemCategoriaConsulta(idCategoriaConsulta);
+    } else {
+      this.selectedCategorias.push(idCategoriaConsulta);
+    }
   }
 
-  deleteItem(target: number) {
+  deleteItemRecinto(target: number) {
     var i = 0;
     while (i < this.selectedRecintos.length) {
       if (this.selectedRecintos[i] === target) {
         this.selectedRecintos.splice(i, 1);
+      } else {
+        ++i;
+      }
+    }
+  }
+
+  deleteItemCategoriaConsulta(target: number) {
+    var i = 0;
+    while (i < this.selectedCategorias.length) {
+      if (this.selectedCategorias[i] === target) {
+        this.selectedCategorias.splice(i, 1);
       } else {
         ++i;
       }
@@ -224,6 +248,18 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
     }
     return recintoOptionSelected;
+  }
+
+  getAllCategoriasById() {
+    let categoriaOptionSelected: any = [];
+    for (let i = 0; i < this.selectedCategorias.length; i++) {
+
+      categoriaOptionSelected.push(this.categoriasConsulta.filter((a: { id: number }) => {
+        return a.id === this.selectedCategorias[i]
+      })[0]);
+
+    }
+    return categoriaOptionSelected;
   }
 
 }

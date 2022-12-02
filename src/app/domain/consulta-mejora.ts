@@ -1,4 +1,5 @@
 import { AreaDisciplinar } from "./area-disciplinar";
+import { CategoriaConsulta } from "./categoria-consulta";
 import { PlanEstudio } from "./plan-estudio";
 import { Recinto } from "./recinto";
 import { RespuestaMejora } from "./respuesta-mejora";
@@ -19,5 +20,6 @@ export class ConsultaMejora {
         public areaDisciplinar: AreaDisciplinar,
         public planEstudio: PlanEstudio,
         public respuestas: RespuestaMejora,
+        public categoriasConsulta: Array<CategoriaConsulta>
     ) { }
 }
