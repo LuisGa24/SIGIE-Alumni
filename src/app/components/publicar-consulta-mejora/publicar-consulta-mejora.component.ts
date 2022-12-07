@@ -61,12 +61,13 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentDate = this.getActualUTCDateFormated();
+    console.log(this.currentDate);
   }
 
   getActualUTCDateFormated() {
-    let date = new Date();
-    var currentDate = date.getFullYear() + '-' + date.getUTCMonth() + '-' + date.getDate() + 'T00:00';
-    return currentDate;
+    var moment = require('moment');
+    let dateNow = moment().format('YYYY-MM-DDTHH:MM');
+    return dateNow;
   }
 
   getCategoriasConsulta() {
