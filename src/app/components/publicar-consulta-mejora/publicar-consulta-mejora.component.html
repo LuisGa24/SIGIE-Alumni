@@ -55,17 +55,24 @@
 
         <div class="component">
             <div class="selector-container">
+
+
                 <span>Recintos de Consulta</span><br><br>
-                <mat-checkbox value="9999" id="allRecintosCheck" (change)="selectCheckBox(9999)">Todos los recintos
-                </mat-checkbox> <br>
-                <a *ngFor="let r of recintos">
-                    <mat-checkbox value={{r.id}} (change)="selectCheckBox(r.id)"
-                        *ngIf="selectedRecintos.length != recintos.length">{{r.nombre}}
-                    </mat-checkbox> <br>
-                </a>
+
+                <li class="listitem">
+                    <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="masterSelected" name="list_name"
+                        value="m1" (change)="checkUncheckAll()"> <strong>Todos los recintos</strong></mat-checkbox>
+                </li>
+
+                <li class="listitem" *ngFor="let item of checklist">
+                    <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="item.isSelected" name="list_name"
+                        value="{{item.id}}" (change)="isAllSelected()">
+                        {{item.value}}</mat-checkbox>
+                </li>
 
             </div>
         </div>
+
 
         <div class=" component">
 
@@ -91,6 +98,9 @@
                     </a>
                 </mat-select>
             </mat-form-field>
+
+
+
         </div>
     </div>
 

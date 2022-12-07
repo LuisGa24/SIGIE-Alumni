@@ -19,12 +19,15 @@ import { CategoriaConsulta } from 'src/app/domain/categoria-consulta';
 })
 export class PublicarConsultaMejoraComponent implements OnInit {
 
+  masterSelected: boolean;
+  checklist: any = [];
+  checkedList: any;
+
   allRecintosSelected = false;
   years: any = [];
   areasDisciplinares: any = [];
   planesEstudio: any = [];
   recintos: any = [];
-  selectedRecintos: any = [];
   selectedCategorias: any = [];
   selectedPlanEstudio = '';
   consultaMejoraForm: FormGroup;
@@ -37,9 +40,14 @@ export class PublicarConsultaMejoraComponent implements OnInit {
     private planEstudioService: PlanEstudioService, private recintoService: RecintoService,
     private dialog: MatDialog, private consultaMejoraService: ConsultaMejoraService) {
 
+    this.masterSelected = false;
+
+    this.getCheckedItemList();
+
     this.getPlanesEstudio();
     this.getCategoriasConsulta();
     this.getRecintos();
+
 
     this.consultaMejoraForm = this.fb.group({
       nombreConsulta: ['', [Validators.required]],
@@ -57,6 +65,31 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       categoriasConsulta: ['', []]
     })
 
+  }
+
+  checkUncheckAll() {
+    for (var i = 0; i < this.checklist.length; i++) {
+      this.checklist[i].isSelected = this.masterSelected;
+    }
+    this.getCheckedItemList();
+  }
+
+  // Check All Checkbox Checked
+  isAllSelected() {
+    this.masterSelected = this.checklist.every(function (item: any) {
+      return item.isSelected == true;
+    })
+    this.getCheckedItemList();
+  }
+
+  // Get List of Checked Items
+  getCheckedItemList() {
+    this.checkedList = [];
+    for (var i = 0; i < this.checklist.length; i++) {
+      if (this.checklist[i].isSelected)
+        this.checkedList.push(this.checklist[i]);
+    }
+    this.checkedList = JSON.stringify(this.checkedList);
   }
 
   ngOnInit(): void {
@@ -90,6 +123,9 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
     this.recintoService.getAll().subscribe((data: {}) => {
       this.recintos = data;
+      this.recintos.forEach((r: { id: number; nombre: String; isSelected: boolean }) => {
+        this.checklist.push({ id: r.id, value: r.nombre, isSelected: false });
+      });
     })
   }
 
@@ -120,11 +156,10 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       });
     } else {
 
-      /********************************************************************************* */
       var recintosMejora: Recinto[] = this.getAllRecintoById();
 
       var categoriasConsulta: CategoriaConsulta[] = this.getAllCategoriasById();
-      /********************************************************************************** */
+
       var consultaMejora: any = this.consultaMejoraForm.value;
 
       var planEstudio: PlanEstudio = this.planesEstudio.filter((a: { id: number }) => {
@@ -158,6 +193,16 @@ export class PublicarConsultaMejoraComponent implements OnInit {
           width: '250px',
           data: { title: 'Error', message: 'El año máximo y mínimo de graduación no es válido. Verifique que las fechas estén correctas.' },
         });
+      } else if (recintosMejora.length <= 0 ) {
+        this.dialog.open(DialogComponent, {
+          width: '250px',
+          data: { title: 'Error', message: 'Debe seleccionar al menos un recinto de consulta.' },
+        });
+      } else if (categoriasConsulta.length <= 0) {
+        this.dialog.open(DialogComponent, {
+          width: '250px',
+          data: { title: 'Error', message: 'Debe seleccionar al menos una categoría de consulta.' },
+        });
       } else {
         this.consultaMejoraService.add(consulta).subscribe((result) => {
 
@@ -180,29 +225,6 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
   }
 
-  selectCheckBox(idRecinto: number) {
-    if (idRecinto != 9999) {
-      if (this.selectedRecintos.length > 0 && this.selectedRecintos.filter((a: number) => {
-        return a === idRecinto
-      }).length > 0) {
-        //Remove object in array
-        this.deleteItemRecinto(idRecinto);
-      } else {
-        this.selectedRecintos.push(idRecinto);
-      }
-    } else {
-      if (this.allRecintosSelected == false) {
-        this.selectedRecintos = [];
-        for (let i = 0; i < this.recintos.length; i++) {
-          this.selectedRecintos.push(this.recintos[i].id)
-        }
-        this.allRecintosSelected = true;
-      } else {
-        this.selectedRecintos = [];
-        this.allRecintosSelected = false;
-      }
-    }
-  }
 
   selectCheckBoxCategoriaConsulta(idCategoriaConsulta: number) {
     if (this.selectedCategorias.length > 0 && this.selectedCategorias.filter((a: number) => {
@@ -215,16 +237,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
     }
   }
 
-  deleteItemRecinto(target: number) {
-    var i = 0;
-    while (i < this.selectedRecintos.length) {
-      if (this.selectedRecintos[i] === target) {
-        this.selectedRecintos.splice(i, 1);
-      } else {
-        ++i;
-      }
-    }
-  }
+
 
   deleteItemCategoriaConsulta(target: number) {
     var i = 0;
@@ -239,13 +252,16 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
   getAllRecintoById() {
     let recintoOptionSelected: any = [];
-    for (let i = 0; i < this.selectedRecintos.length; i++) {
+    for (let i = 0; i < this.checklist.length; i++) {
 
       recintoOptionSelected.push(this.recintos.filter((a: { id: number }) => {
-        return a.id === this.selectedRecintos[i]
+        return (a.id == this.checklist[i].id && this.checklist[i].isSelected === true);
       })[0]);
-
     }
+    recintoOptionSelected = recintoOptionSelected.filter((a:any)=> {
+      return a != undefined;
+    })
+
     return recintoOptionSelected;
   }
 
