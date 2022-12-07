@@ -61,7 +61,6 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentDate = this.getActualUTCDateFormated();
-    console.log(this.currentDate);
   }
 
   getActualUTCDateFormated() {
@@ -95,7 +94,6 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   }
 
   selectedPlan(idPlanEstudio: Number) {
-    console.log(idPlanEstudio);
     this.years = [];
     const currentYear = new Date().getFullYear();
     var plan = this.planesEstudio.filter((p: { id: number }) => {

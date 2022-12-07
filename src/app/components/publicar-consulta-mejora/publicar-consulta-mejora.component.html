@@ -70,17 +70,6 @@
         <div class=" component">
 
             <mat-form-field style="width: 100%">
-                <mat-label>Año de graduación máximo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
-                        de Estudio"</a>
-                </mat-label>
-                <mat-select formControlName="anoMaximoGraduacion">
-                    <a *ngFor="let y of years">
-                        <mat-option value={{y}}>{{y}}</mat-option>
-                    </a>
-                </mat-select>
-            </mat-form-field>
-            <br>
-            <mat-form-field style="width: 100%">
                 <mat-label>Año de graduación mínimo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
                         de Estudio"</a></mat-label>
                 <mat-select formControlName="anoMinimoGraduacion">
@@ -90,6 +79,18 @@
                 </mat-select>
             </mat-form-field>
 
+            <br>
+
+            <mat-form-field style="width: 100%">
+                <mat-label>Año de graduación máximo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
+                        de Estudio"</a>
+                </mat-label>
+                <mat-select formControlName="anoMaximoGraduacion">
+                    <a *ngFor="let y of years">
+                        <mat-option value={{y}}>{{y}}</mat-option>
+                    </a>
+                </mat-select>
+            </mat-form-field>
         </div>
     </div>
 
