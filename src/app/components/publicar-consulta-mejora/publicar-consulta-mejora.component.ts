@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CategoriaConsultaService } from 'src/app/services/categoria-consulta.service'
 import { PlanEstudioService } from 'src/app/services/plan-estudio.service'
 import { RecintoService } from 'src/app/services/recinto.service'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { DialogComponent } from '../dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConsultaMejoraService } from 'src/app/services/consulta-mejora.service';
@@ -19,6 +19,10 @@ import { CategoriaConsulta } from 'src/app/domain/categoria-consulta';
 })
 export class PublicarConsultaMejoraComponent implements OnInit {
 
+  masterSelected:boolean;
+  checklist:any;
+  checkedList:any;
+
   allRecintosSelected = false;
   years: any = [];
   areasDisciplinares: any = [];
@@ -33,9 +37,22 @@ export class PublicarConsultaMejoraComponent implements OnInit {
   categoriasConsulta: any = [];
 
 
-  constructor(private fb: FormBuilder, private categoriaConsultaService: CategoriaConsultaService,
+  constructor( private fb: FormBuilder, private categoriaConsultaService: CategoriaConsultaService,
     private planEstudioService: PlanEstudioService, private recintoService: RecintoService,
     private dialog: MatDialog, private consultaMejoraService: ConsultaMejoraService) {
+
+      this.masterSelected = false;
+      this.checklist = [
+        {id:1,value:'Elenor Anderson',isSelected:false},
+        {id:2,value:'Caden Kunze',isSelected:false},
+        {id:3,value:'Ms. Hortense Zulauf',isSelected:false},
+        {id:4,value:'Grady Reichert',isSelected:false},
+        {id:5,value:'Dejon Olson',isSelected:false},
+        {id:6,value:'Jamir Pfannerstill',isSelected:false},
+        {id:7,value:'Aracely Renner DVM',isSelected:false},
+        {id:8,value:'Genoveva Luettgen',isSelected:false}
+      ];
+      this.getCheckedItemList();
 
     this.getPlanesEstudio();
     this.getCategoriasConsulta();
@@ -57,6 +74,31 @@ export class PublicarConsultaMejoraComponent implements OnInit {
       categoriasConsulta: ['', []]
     })
 
+  }
+
+  checkUncheckAll() {
+    for (var i = 0; i < this.checklist.length; i++) {
+      this.checklist[i].isSelected = this.masterSelected;
+    }
+    this.getCheckedItemList();
+  }
+
+  // Check All Checkbox Checked
+  isAllSelected() {
+    this.masterSelected = this.checklist.every(function(item:any) {
+        return item.isSelected == true;
+      })
+    this.getCheckedItemList();
+  }
+
+  // Get List of Checked Items
+  getCheckedItemList(){
+    this.checkedList = [];
+    for (var i = 0; i < this.checklist.length; i++) {
+      if(this.checklist[i].isSelected)
+      this.checkedList.push(this.checklist[i]);
+    }
+    this.checkedList = JSON.stringify(this.checkedList);
   }
 
   ngOnInit(): void {

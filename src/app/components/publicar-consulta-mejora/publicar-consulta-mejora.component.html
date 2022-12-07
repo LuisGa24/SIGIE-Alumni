@@ -1,5 +1,9 @@
 <h2>Datos básicos de la consulta</h2>
 
+
+
+
+
 <form [formGroup]="consultaMejoraForm" (ngSubmit)="submitForm()" #formDir="ngForm">
     <div fxLayout="row" class="docente-container">
 
@@ -55,6 +59,21 @@
 
         <div class="component">
             <div class="selector-container">
+                
+                
+                
+                    <li class="listitem">
+                        <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="masterSelected" name="list_name" value="m1"
+                            (change)="checkUncheckAll()" > <strong>Select/ Unselect All</strong></mat-checkbox>
+                    </li>
+                
+                    <li class="listitem" *ngFor="let item of checklist">
+                        <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}"
+                            (change)="isAllSelected()" >
+                        {{item.value}}</mat-checkbox>
+                    </li>
+                
+                <!---->
                 <span>Recintos de Consulta</span><br><br>
                 <mat-checkbox value="9999" id="allRecintosCheck" (change)="selectCheckBox(9999)">Todos los recintos
                 </mat-checkbox> <br>
@@ -63,9 +82,11 @@
                         *ngIf="selectedRecintos.length != recintos.length">{{r.nombre}}
                     </mat-checkbox> <br>
                 </a>
-
             </div>
         </div>
+
+     
+        
 
         <div class=" component">
 
