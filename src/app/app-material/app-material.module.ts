@@ -12,7 +12,11 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatSelectModule } from '@angular/material/select';
-
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatRadioModule } from '@angular/material/radio';
+import { MatMenuModule } from '@angular/material/menu'
 
 @NgModule({
   declarations: [],
@@ -29,7 +33,12 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     MatSidenavModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatMenuModule
   ],
   exports: [
     MatButtonModule,
@@ -43,7 +52,12 @@ import { MatSelectModule } from '@angular/material/select';
     MatSelectModule,
     MatSidenavModule,
     MatTabsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatMenuModule
   ]
 
 })

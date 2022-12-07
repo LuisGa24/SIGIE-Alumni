@@ -9,6 +9,8 @@ import { DocenteService } from 'src/app/services/docente.service';
 })
 export class ListarDocentesComponent implements OnInit {
 
+
+
   docentes: Array<Docente>;
   constructor(private docenteService: DocenteService) {
     this.docentes = this.docenteService.getDocentes();

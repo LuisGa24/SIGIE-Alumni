@@ -4,7 +4,7 @@ import { PersonaGraduada } from "./persona-graduada";
 
 export class PlanEstudio {
     constructor(
-        public id?: String,
+        public id?: number,
         public codCarrera?: String,
         public nombreCarrera?: String,
         public anoAprovacion?: number,

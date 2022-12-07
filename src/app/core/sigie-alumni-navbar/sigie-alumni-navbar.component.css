@@ -1,0 +1,10 @@
+.navBar {
+    background-color: #c2c2c28e;
+    height: 35px;
+}
+
+@media only screen and (max-width: 600px) {
+    .navBar {
+        height: 110px;
+    }
+}

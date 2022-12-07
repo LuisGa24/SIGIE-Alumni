@@ -1,0 +1,131 @@
+<h2>Datos básicos de la consulta</h2>
+
+<form [formGroup]="consultaMejoraForm" (ngSubmit)="submitForm()" #formDir="ngForm">
+    <div fxLayout="row" class="docente-container">
+
+        <mat-form-field class="component">
+            <input matInput required placeholder="Titulo de la consulta" formControlName="nombreConsulta">
+        </mat-form-field>
+
+        <mat-form-field class="component">
+            <input matInput required placeholder="Nombre de la persona responsable de la consulta"
+                formControlName="nombreResponsable">
+        </mat-form-field>
+
+        <mat-form-field class="component">
+            <input matInput required type="email" placeholder="Correo de la persona responsable de la consulta"
+                formControlName="emailResponsable">
+        </mat-form-field>
+
+        <mat-form-field class="component">
+            <input matInput type="text" placeholder="Apellidos de la persona responsable de la consulta"
+                formControlName="apellidosResponsable">
+        </mat-form-field>
+
+        <mat-form-field class="component">
+            <textarea matInput rows="5" cols="40" type="text" placeholder="Objetivo de la consulta"
+                formControlName="objetivoConsulta"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="component">
+            <textarea matInput rows="5" cols="40" type="text" placeholder="Instrucciones para completar la consulta"
+                formControlName="instruccionesConsulta"></textarea>
+        </mat-form-field>
+
+        <mat-form-field class="component">
+            <mat-label>Plan de Estudios</mat-label>
+            <mat-select [(value)]="selectedPlanEstudio" (selectionChange)="selectedPlan($event.value)"
+                formControlName="planEstudio">
+                <a *ngFor="let pe of planesEstudio; index as i;">
+                    <mat-option value={{pe.id}}>{{pe.anoAprobacion}} - {{pe.nombreCarrera}}</mat-option>
+                </a>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="component">
+            <mat-label>Fecha máxima de aceptación de respuestas</mat-label>
+            <input type="datetime-local" matInput formControlName="fechaMaxAceptacionRes" min={{currentDate}}>
+        </mat-form-field>
+    </div>
+
+    <!---------------------- Segmento de Población -------------------------->
+
+    <h2>Segmento de Población</h2>
+    <div fxLayout="row" class="docente-container">
+
+        <div class="component">
+            <div class="selector-container">
+                <span>Recintos de Consulta</span><br><br>
+                <mat-checkbox value="9999" id="allRecintosCheck" (change)="selectCheckBox(9999)">Todos los recintos
+                </mat-checkbox> <br>
+                <a *ngFor="let r of recintos">
+                    <mat-checkbox value={{r.id}} (change)="selectCheckBox(r.id)"
+                        *ngIf="selectedRecintos.length != recintos.length">{{r.nombre}}
+                    </mat-checkbox> <br>
+                </a>
+
+            </div>
+        </div>
+
+        <div class=" component">
+
+            <mat-form-field style="width: 100%">
+                <mat-label>Año de graduación máximo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
+                        de Estudio"</a>
+                </mat-label>
+                <mat-select formControlName="anoMaximoGraduacion">
+                    <a *ngFor="let y of years">
+                        <mat-option value={{y}}>{{y}}</mat-option>
+                    </a>
+                </mat-select>
+            </mat-form-field>
+            <br>
+            <mat-form-field style="width: 100%">
+                <mat-label>Año de graduación mínimo <a style="color: red;" *ngIf="years.length == 0">"Seleccion un Plan
+                        de Estudio"</a></mat-label>
+                <mat-select formControlName="anoMinimoGraduacion">
+                    <a *ngFor="let y of years">
+                        <mat-option value={{y}}>{{y}}</mat-option>
+                    </a>
+                </mat-select>
+            </mat-form-field>
+
+        </div>
+    </div>
+
+    <!---------------------- Cuerpo de la Consulta -------------------------->
+    <h2>Cuerpo de la Consulta</h2>
+    <div fxLayout="row" class="docente-container">
+        <div class="component">
+            <div class="selector-container">
+                <span>Seleccione una o varias categorias de consulta</span> <br><br>
+                <a *ngFor="let cc of categoriasConsulta">
+                    <mat-checkbox (change)="selectCheckBoxCategoriaConsulta(cc.id)">{{cc.nombre}}</mat-checkbox> <br>
+                </a>
+            </div>
+        </div>
+
+        <div class="component">
+
+            <div fxLayout="column">
+                <div class="selector-container">
+                    <span>Seleccione el área disciplinaria</span><br><br>
+                    <a *ngIf="areasDisciplinares.length == 0"> <span class="alert">Debe seleccionar un Plan
+                            de Estudio
+                            para mostrar las areas
+                            disciplinares</span> </a>
+                    <mat-radio-group class="radio-group" formControlName="areaDisciplinar">
+                        <a *ngFor="let a of areasDisciplinares;">
+                            <mat-radio-button value={{a.id}}>{{a.nombre}}</mat-radio-button><br>
+                        </a>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div fxLayout="row" class="docente-container">
+        <button class="component" type="submit" mat-button color="primary">Update request</button>
+    </div>
+    <br>
+</form>
+<br><br>

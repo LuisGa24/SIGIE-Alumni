@@ -4,7 +4,7 @@ import { PersonaGraduada } from "./persona-graduada";
 
 export class RespuestaMejora {
     constructor(
-        public id?: String,
+        public id?: number,
         public propuesta?: String,
         public categoriaConsulta?: CategoriaConsulta,
         public consultaMejora?: ConsultaMejora,

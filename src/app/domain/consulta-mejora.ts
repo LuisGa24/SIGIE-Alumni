@@ -1,23 +1,26 @@
 import { AreaDisciplinar } from "./area-disciplinar";
+import { CategoriaConsulta } from "./categoria-consulta";
 import { PlanEstudio } from "./plan-estudio";
 import { Recinto } from "./recinto";
 import { RespuestaMejora } from "./respuesta-mejora";
 
 export class ConsultaMejora {
     constructor(
-        public id?: String,
-        public titulo?: String,
-        public objetivo?: String,
-        public instrucciones?: String,
-        public fechaFinalizacion?: Date,
-        public anoGraduacionMax?: number,
-        public anoGraduacionMin?: number,
-        public nombrePersonaResponsableConsulta?: String,
-        public apellidosPersonaResponsableConsulta?: String,
-        public correoPersonaResponsableConsulta?: String,
-        public recintos?: Array<Recinto>,
-        public areaDisciplinar?: AreaDisciplinar,
-        public planEstudio?: PlanEstudio,
-        public respuestas?: Array<RespuestaMejora>,
+        public id: number,
+        public titulo: String,
+        public objetivo: String,
+        public instrucciones: String,
+        public fechaFinalizacion: Date,
+        public anoGraduacionMax: number,
+        public anoGraduacionMin: number,
+        public nombrePersonaResponsableConsulta: String,
+        public apellidosPersonaResponsableConsulta: String,
+        public correoPersonaResponsableConsulta: String,
+        public recintos: Array<Recinto>,
+        public areaDisciplinar: AreaDisciplinar,
+        public planEstudio: PlanEstudio,
+        public respuestas: RespuestaMejora,
+        public categoriasConsulta: Array<CategoriaConsulta>
+
     ) { }
 }

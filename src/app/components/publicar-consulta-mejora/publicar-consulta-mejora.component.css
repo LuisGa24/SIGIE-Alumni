@@ -29,7 +29,7 @@ h2 {
 }
 
 .component {
-    border: 0.5px solid #949494;
+    border: 0.5px solid #d4d3d3;
     border-radius: 5px;
     width: 45%;
     min-width: 400px;
@@ -45,8 +45,22 @@ h2 {
 .component span {
     font-weight: bold;
 }
+.selector-container{
+    margin-left: 5%;
+    padding-top: 10px;
+}
 
 .radio-group {
     display: flex;
     flex-direction: column;
+}
+
+.alert {
+    font-size: small;
+    color: red;
+    text-align: center;
+}
+
+.mat-checkbox, .mat-radio-button{
+    margin-bottom: 6px;
 }
