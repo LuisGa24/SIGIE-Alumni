@@ -21,5 +21,6 @@ export class ConsultaMejora {
         public planEstudio: PlanEstudio,
         public respuestas: RespuestaMejora,
         public categoriasConsulta: Array<CategoriaConsulta>
+
     ) { }
 }
