@@ -4,6 +4,7 @@ import { PlanEstudioService } from 'src/app/services/plan-estudio.service'
 import { RecintoService } from 'src/app/services/recinto.service'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DialogComponent } from '../dialog/dialog.component';
+import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConsultaMejoraService } from 'src/app/services/consulta-mejora.service';
 import { ConsultaMejora } from 'src/app/domain/consulta-mejora';
@@ -38,7 +39,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private categoriaConsultaService: CategoriaConsultaService,
     private planEstudioService: PlanEstudioService, private recintoService: RecintoService,
-    private dialog: MatDialog, private consultaMejoraService: ConsultaMejoraService) {
+    private dialog: MatDialog, private consultaMejoraService: ConsultaMejoraService, private router: Router) {
 
     this.masterSelected = false;
 
@@ -193,7 +194,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
           width: '250px',
           data: { title: 'Error', message: 'El año máximo y mínimo de graduación no es válido. Verifique que las fechas estén correctas.' },
         });
-      } else if (recintosMejora.length <= 0 ) {
+      } else if (recintosMejora.length <= 0) {
         this.dialog.open(DialogComponent, {
           width: '250px',
           data: { title: 'Error', message: 'Debe seleccionar al menos un recinto de consulta.' },
@@ -220,11 +221,19 @@ export class PublicarConsultaMejoraComponent implements OnInit {
 
         });
       }
-
+      this.resetForm();
     }
 
   }
 
+  resetForm() {
+    this.consultaMejoraForm.reset();
+    Object.keys(this.consultaMejoraForm.controls).forEach(key => {
+      this.consultaMejoraForm.controls[key].setErrors(null)
+    });
+    this.masterSelected = false;
+    this.checkUncheckAll();
+  }
 
   selectCheckBoxCategoriaConsulta(idCategoriaConsulta: number) {
     if (this.selectedCategorias.length > 0 && this.selectedCategorias.filter((a: number) => {
@@ -258,7 +267,7 @@ export class PublicarConsultaMejoraComponent implements OnInit {
         return (a.id == this.checklist[i].id && this.checklist[i].isSelected === true);
       })[0]);
     }
-    recintoOptionSelected = recintoOptionSelected.filter((a:any)=> {
+    recintoOptionSelected = recintoOptionSelected.filter((a: any) => {
       return a != undefined;
     })
 
